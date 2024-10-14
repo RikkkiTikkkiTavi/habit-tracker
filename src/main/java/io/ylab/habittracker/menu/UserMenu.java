@@ -217,7 +217,7 @@ public class UserMenu {
 
     private static Habit editHabit(Scanner sc, HabitService hs, long userId) {
         System.out.println("Введите id привычки");
-       
+
         long habitId = sc.nextLong();
 
         Habit habit = hs.getHabit(userId, habitId);

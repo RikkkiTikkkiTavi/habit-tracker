@@ -7,7 +7,6 @@ import io.ylab.habittracker.habit.model.Habit;
 import io.ylab.habittracker.user.model.User;
 import io.ylab.habittracker.validate.ValidationException;
 
-
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -50,7 +49,7 @@ public class AdminMenu {
                     case "4":
                         System.out.println("Введите email пользователя");
                         String ema = sc.next();
-                        System.out.println("Пользователь" + as.blockUser(ema) + " удален");
+                        System.out.println("Пользователь" + as.deleteUser(ema) + " удален");
                         break;
 
                     default:
@@ -63,7 +62,6 @@ public class AdminMenu {
         }
 
     }
-
 
         private static void welcomeMenu() {
             System.out.println("-----------------------------------");
