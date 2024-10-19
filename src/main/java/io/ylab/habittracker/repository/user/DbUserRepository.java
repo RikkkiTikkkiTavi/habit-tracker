@@ -11,8 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.ylab.habittracker.properties.DbProperties.*;
-
 public class DbUserRepository implements UserRepository {
 
     private static long id;

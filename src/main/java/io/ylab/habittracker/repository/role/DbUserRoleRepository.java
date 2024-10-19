@@ -6,8 +6,6 @@ import io.ylab.habittracker.validate.ValidationException;
 
 import java.sql.*;
 
-import static io.ylab.habittracker.properties.DbProperties.getProperty;
-
 public class DbUserRoleRepository implements RoleRepository {
 
     private final DBConnectionProvider dbConnectionProvider;

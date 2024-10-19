@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.ylab.habittracker.properties.DbProperties.getProperty;
-
 public class DbHabitRepository implements HabitRepository {
 
     private static long id;
@@ -105,7 +103,7 @@ public class DbHabitRepository implements HabitRepository {
             long id = resultSet.getLong("id");
             String name = resultSet.getString("name");
             String description = resultSet.getString("description");
-            Frequency frequency = Frequency.valueOf(resultSet.getString("frequency"));;
+            Frequency frequency = Frequency.valueOf(resultSet.getString("frequency"));
             LocalDate date = resultSet.getDate("create_time").toLocalDate();
             long user_id = resultSet.getLong("user_id");
             Habit habit = new Habit(name, description, frequency, user_id);

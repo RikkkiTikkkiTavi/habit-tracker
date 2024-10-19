@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.ylab.habittracker.properties.DbProperties.getProperty;
-
 public class DbHistoryRepository implements HistoryRepository {
 
     private final DBConnectionProvider dbConnectionProvider;
