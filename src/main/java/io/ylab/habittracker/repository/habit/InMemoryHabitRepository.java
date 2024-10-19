@@ -1,15 +1,20 @@
-package io.ylab.habittracker.habit.repo;
+package io.ylab.habittracker.repository.habit;
 
-import io.ylab.habittracker.habit.model.Habit;
+import io.ylab.habittracker.model.habit.Habit;
 import io.ylab.habittracker.validate.ValidationException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class InMemoryHabitRepository implements HabitRepository {
     private final Map<Long, Map<Long, Habit>> habits = new HashMap<>();
 
+    @Override
+    public Habit getHabit(long habitId) {
+        return null;
+    }
 
     @Override
     public Habit createHabit(Habit habit) {
@@ -50,17 +55,13 @@ public class InMemoryHabitRepository implements HabitRepository {
     }
 
     @Override
-    public Habit getHabit(long userId, long habitId) {
-        return habits.get(userId).getOrDefault(habitId, null);
-    }
-
-    @Override
     public void deleteHabit(long userId, long habitId) {
         habits.get(userId).remove(habitId);
     }
 
     @Override
-    public Map<Long, Habit> getUserHabits(long userId) {
-        return habits.getOrDefault(userId, null);
+    public List<Habit> getUserHabits(long userId) {
+       // return habits.getOrDefault(userId, null);
+        return null;
     }
 }

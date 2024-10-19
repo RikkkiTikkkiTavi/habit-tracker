@@ -1,12 +1,12 @@
-package io.ylab.habittracker.user.repo;
+package io.ylab.habittracker.repository.user;
 
-import io.ylab.habittracker.user.model.User;
+import io.ylab.habittracker.model.user.User;
 
 import java.util.List;
 
 public interface UserRepository {
     User addUser(User user);
-    User deleteUser(String email);
+    void deleteUser(String email);
     User updateUser(User user);
     User getUser(String email);
 

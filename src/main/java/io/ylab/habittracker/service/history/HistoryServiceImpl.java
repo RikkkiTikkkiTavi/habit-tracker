@@ -1,7 +1,6 @@
 package io.ylab.habittracker.service.history;
 
 import io.ylab.habittracker.model.history.HabitHistory;
-import io.ylab.habittracker.repository.history.DbHistoryRepository;
 import io.ylab.habittracker.repository.history.HistoryManager;
 import io.ylab.habittracker.repository.history.HistoryRepository;
 import io.ylab.habittracker.validate.Validate;

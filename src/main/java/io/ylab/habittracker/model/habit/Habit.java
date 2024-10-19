@@ -1,4 +1,4 @@
-package io.ylab.habittracker.habit.model;
+package io.ylab.habittracker.model.habit;
 
 import java.time.LocalDate;
 

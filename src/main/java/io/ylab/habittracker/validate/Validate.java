@@ -1,7 +1,7 @@
 package io.ylab.habittracker.validate;
 
-import io.ylab.habittracker.habit.model.Habit;
-import io.ylab.habittracker.user.model.User;
+import io.ylab.habittracker.model.habit.Habit;
+import io.ylab.habittracker.model.user.User;
 
 import java.time.LocalDate;
 

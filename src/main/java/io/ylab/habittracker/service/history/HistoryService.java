@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HistoryService {
+
     void noteHabit(long userId, long habitId);
 
     List<HabitHistory> getUserHistory(long userId);

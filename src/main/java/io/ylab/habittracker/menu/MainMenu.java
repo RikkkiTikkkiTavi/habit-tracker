@@ -87,7 +87,6 @@ public class MainMenu {
         while (true) {
             System.out.println("Введите пароль");
             String password = sc.next();
-            long userId = user.getId();
 
             if (reg.authentication(user, password)) {
                 if (user.getStatus().equals(Status.BLOCKED)) {

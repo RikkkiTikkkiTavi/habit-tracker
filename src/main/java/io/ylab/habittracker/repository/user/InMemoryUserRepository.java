@@ -1,7 +1,7 @@
-package io.ylab.habittracker.user.repo;
+package io.ylab.habittracker.repository.user;
 
-import io.ylab.habittracker.user.model.Status;
-import io.ylab.habittracker.user.model.User;
+import io.ylab.habittracker.model.user.Status;
+import io.ylab.habittracker.model.user.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,16 +15,23 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User addUser(User user) {
         user.setId(id);
-        user.setStatus(Status.AVAIlABLE);
+        user.setStatus(Status.AVAILABLE);
         users.put(user.getEmail(), user);
         id++;
         return user;
     }
 
-    @Override
-    public User deleteUser(String email) {
-        return users.remove(email);
+
+
+        @Override
+    public void deleteUser(String email) {
+
     }
+
+    //    @Override
+//    public User deleteUser(String email) {
+//        return users.remove(email);
+//    }
 
     @Override
     public User updateUser(User user) {
