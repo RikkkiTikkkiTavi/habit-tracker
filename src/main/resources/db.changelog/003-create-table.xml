@@ -15,7 +15,7 @@
             <column name="frequency" type="VARCHAR(255)"/>
             <column name="create_time" type="TIMESTAMP"/>
             <column name="user_id" type="bigint">
-                <constraints references="entity.users(id)" foreignKeyName="user_id"/>
+                <constraints references="entity.users(id)" foreignKeyName="user_id" deleteCascade="true"/>
             </column>
         </createTable>
     </changeSet>

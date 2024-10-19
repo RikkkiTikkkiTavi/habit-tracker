@@ -18,18 +18,6 @@
             <column name="status" type="VARCHAR(255)"/>
             <column name="password" type="VARCHAR(255)"/>
         </createTable>
-
-        <createSequence  cacheSize="371717"
-                         catalogName="cat"
-                         cycle="true"
-                         dataType="bigint"
-                         incrementBy="1"
-                         maxValue="10000"
-                         minValue="1"
-                         ordered="true"
-                         schemaName="entity"
-                         sequenceName="id"
-                         startValue="1"/>
     </changeSet>
 
 </databaseChangeLog>

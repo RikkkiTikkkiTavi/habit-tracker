@@ -10,11 +10,11 @@
             <column name="date" type="timestamp"/>
             <column name="streak" type="bigint"/>
             <column name="user_id" type="bigint">
-                <constraints references="entity.users(id)" foreignKeyName="user_id"/>
+                <constraints references="entity.users(id)" foreignKeyName="user_id" deleteCascade="true"/>
             </column>
 
             <column name="habit_id" type="bigint">
-                <constraints references="entity.habits(id)" foreignKeyName="habit_id"/>
+                <constraints references="entity.habits(id)" foreignKeyName="habit_id" deleteCascade="true"/>
             </column>
         </createTable>
     </changeSet>

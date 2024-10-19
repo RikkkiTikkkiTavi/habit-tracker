@@ -7,11 +7,11 @@
     <changeSet id="004-create-table" author="constantin" >
         <createTable tableName="user_roles" schemaName="entity">
             <column name="user_id" type="bigint">
-                <constraints references="entity.users(id)" foreignKeyName="user_id"/>
+                <constraints references="entity.users(id)" foreignKeyName="user_id" deleteCascade="true"/>
             </column>
 
             <column name="role_id" type="bigint">
-            <constraints references="entity.roles(id)" foreignKeyName="role_id"/>
+            <constraints references="entity.roles(id)" foreignKeyName="role_id" deleteCascade="true"/>
         </column>
         </createTable>
     </changeSet>
