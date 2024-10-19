@@ -1,14 +1,13 @@
 package io.ylab.habittracker.menu;
 
-import io.ylab.habittracker.habit.model.Frequency;
-import io.ylab.habittracker.habit.model.Habit;
-import io.ylab.habittracker.habit.service.HabitService;
-import io.ylab.habittracker.history.service.HistoryService;
-import io.ylab.habittracker.history.report.StatReport;
-import io.ylab.habittracker.history.service.HistoryServiceImpl;
-import io.ylab.habittracker.registration.password.Registration;
-import io.ylab.habittracker.user.model.User;
-import io.ylab.habittracker.user.service.UserService;
+import io.ylab.habittracker.model.habit.Frequency;
+import io.ylab.habittracker.model.habit.Habit;
+import io.ylab.habittracker.model.user.User;
+import io.ylab.habittracker.service.habit.HabitService;
+import io.ylab.habittracker.service.history.HistoryService;
+import io.ylab.habittracker.service.history.HistoryServiceImpl;
+import io.ylab.habittracker.service.registration.Registration;
+import io.ylab.habittracker.service.user.UserService;
 import io.ylab.habittracker.validate.NotFoundException;
 import io.ylab.habittracker.validate.ValidationException;
 
@@ -71,7 +70,7 @@ public class UserMenu {
                     try {
                         long habitId = sc.nextLong();
                         System.out.println(hs.getHabit(userId, habitId));
-                    } catch (NotFoundException e) {
+                    } catch (NotFoundException | ValidationException e) {
                         System.out.println(e.getMessage());
                         System.out.println("Попробуйте другой id");
                     }
@@ -141,7 +140,7 @@ public class UserMenu {
                     System.out.println("Введите новый пароль");
                     String password = sc.next();
                     try {
-                        reg.registration(user.getId(), password);
+                        reg.registration(user, password);
                     } catch (ValidationException e) {
                         System.out.println(e.getMessage());
                     }
