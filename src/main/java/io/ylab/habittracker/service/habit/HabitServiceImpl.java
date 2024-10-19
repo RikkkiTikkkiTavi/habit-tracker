@@ -1,15 +1,12 @@
-package io.ylab.habittracker.habit.service;
+package io.ylab.habittracker.service.habit;
 
-import io.ylab.habittracker.habit.model.Habit;
-import io.ylab.habittracker.habit.repo.HabitRepoManager;
-import io.ylab.habittracker.habit.repo.HabitRepository;
-import io.ylab.habittracker.validate.NotFoundException;
+import io.ylab.habittracker.model.habit.Habit;
+import io.ylab.habittracker.repository.habit.HabitRepoManager;
+import io.ylab.habittracker.repository.habit.HabitRepository;
 import io.ylab.habittracker.validate.Validate;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HabitServiceImpl implements HabitService {
 
@@ -37,17 +34,17 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     public Habit getHabit(long userId, long habitId) {
-        Habit habit = hr.getHabit(userId, habitId);
+        Habit habit = hr.getHabit( habitId);
         Validate.checkHabit(habit);
         return habit;
     }
 
     @Override
     public List<Habit> getHabits(long userId) {
-        Map<Long, Habit> userHabits = hr.getUserHabits(userId);
+        List<Habit> userHabits = hr.getUserHabits(userId);
         if (userHabits == null) {
-            throw new NotFoundException("У пользователя нету привычек!");
+            return List.of();
         }
-        return new ArrayList<>(userHabits.values());
+        return userHabits;
     }
 }

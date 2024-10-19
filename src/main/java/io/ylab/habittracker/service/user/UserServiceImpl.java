@@ -1,8 +1,8 @@
-package io.ylab.habittracker.user.service;
+package io.ylab.habittracker.service.user;
 
-import io.ylab.habittracker.user.model.User;
-import io.ylab.habittracker.user.repo.UserRepoManager;
-import io.ylab.habittracker.user.repo.UserRepository;
+import io.ylab.habittracker.model.user.User;
+import io.ylab.habittracker.repository.user.UserRepoManager;
+import io.ylab.habittracker.repository.user.UserRepository;
 import io.ylab.habittracker.validate.Validate;
 import io.ylab.habittracker.validate.ValidationException;
 
@@ -11,13 +11,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository ur = UserRepoManager.getInstance();
 
     @Override
-    public User createUser(String name, String email) {
-            Validate.checkEmail(email);
-            Validate.checkUserName(name);
-            if (ur.getUser(email) != null) {
+    public User createUser(User user) {
+            Validate.checkEmail(user.getEmail());
+            Validate.checkUserName(user.getName());
+            if (ur.getUser(user.getEmail()) != null) {
                 throw new ValidationException("Пользователь с таким email уже существует!");
             }
-            User user = new User(name, email);
             user = ur.addUser(user);
         return user;
     }
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User deleteUser(String email) {
-        return ur.deleteUser(email);
+    public void deleteUser(String email) {
+        ur.deleteUser(email);
     }
 }

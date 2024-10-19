@@ -1,6 +1,6 @@
-package io.ylab.habittracker.habit.service;
+package io.ylab.habittracker.service.habit;
 
-import io.ylab.habittracker.habit.model.Habit;
+import io.ylab.habittracker.model.habit.Habit;
 
 import java.util.List;
 
