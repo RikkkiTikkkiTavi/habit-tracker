@@ -7,7 +7,7 @@ public interface UserService {
 
     User getUser(String email);
 
-    User updateUser(User user, String name, String email);
+    User updateUser(User user);
 
     void deleteUser(String email);
 }
