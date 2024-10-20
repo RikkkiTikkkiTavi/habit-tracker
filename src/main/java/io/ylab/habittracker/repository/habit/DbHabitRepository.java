@@ -12,12 +12,25 @@ import java.util.List;
 
 public class DbHabitRepository implements HabitRepository {
 
-    private static long id;
+    private long id;
 
     private final DBConnectionProvider dbConnectionProvider;
 
     public DbHabitRepository(DBConnectionProvider dbConnectionProvider) {
         this.dbConnectionProvider = dbConnectionProvider;
+        this.id = getLastIdFromDb();
+    }
+
+    private long getLastIdFromDb() {
+        try (Connection connection = this.dbConnectionProvider.getConnection()) {
+            String getHabitsQuery = "SELECT MAX(id) FROM entity.habits;";
+            PreparedStatement preparedStatement = connection.prepareStatement(getHabitsQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong("max");
+        } catch (SQLException e) {
+            throw new ValidationException(e.getMessage());
+        }
     }
 
     @Override
