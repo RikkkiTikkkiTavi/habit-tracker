@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DbUserRepository implements UserRepository {
 
-    private static long id;
+    private long id;
 
     private final static RoleRepository roleRepository = RoleManager.getInstance();
 
@@ -21,6 +21,19 @@ public class DbUserRepository implements UserRepository {
 
     public DbUserRepository(DBConnectionProvider dbConnectionProvider) {
         this.dbConnectionProvider = dbConnectionProvider;
+        this.id = getLastIdFromDb();
+    }
+
+    private long getLastIdFromDb() {
+        try (Connection connection = this.dbConnectionProvider.getConnection()) {
+            String getHabitsQuery = "SELECT MAX(id) FROM entity.users;";
+            PreparedStatement preparedStatement = connection.prepareStatement(getHabitsQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong("max");
+        } catch (SQLException e) {
+            throw new ValidationException(e.getMessage());
+        }
     }
 
     @Override
