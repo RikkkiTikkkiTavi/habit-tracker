@@ -30,7 +30,8 @@ public class DbUserRoleRepository implements RoleRepository {
     @Override
     public Role getUserRole(long userId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
-            String roleQuery = "SELECT name FROM entity.roles r JOIN entity.user_roles ur ON r.id=ur.role_id where user_id = ?";
+            String roleQuery =
+                    "SELECT name FROM entity.roles r JOIN entity.user_roles ur ON r.id=ur.role_id where user_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(roleQuery);
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
