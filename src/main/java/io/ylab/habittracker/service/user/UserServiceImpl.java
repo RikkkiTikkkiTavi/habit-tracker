@@ -30,12 +30,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user, String name, String email) {
-        Validate.checkUserName(name);
-        Validate.checkEmail(email);
-        if (ur.getUser(email) != null) {
-            throw new ValidationException("Email занят!");
-        }
+    public User updateUser(User user) {
+        Validate.checkUserName(user.getName());
+        Validate.checkEmail(user.getEmail());
         return ur.updateUser(user);
     }
 
