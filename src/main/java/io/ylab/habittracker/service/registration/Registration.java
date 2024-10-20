@@ -30,6 +30,11 @@ public class Registration {
         return roleRepository.getUserRole(userId);
     }
 
+    public void setUserNewPassword(User user, String password) {
+        Validate.checkPassword(password);
+        user.setPassword(encodePassword(password));
+    }
+
     private String encodePassword(String password) {
         MessageDigest md = null;
         try {
