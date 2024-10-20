@@ -13,13 +13,6 @@ import java.sql.SQLException;
 
 public class LiquibaseScripts {
 
-//    private static final String URL = "jdbc:postgresql://localhost:5432/habit-db";
-//
-//    private static final String USER_NAME = "postgres";
-//
-//    private static final String PASSWORD = "postgres";
-
-
     public static void setChangeSet(String url, String userName, String password) {
         try {
             Connection connection = DriverManager.getConnection(url, userName, password);
