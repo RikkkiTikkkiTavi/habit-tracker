@@ -82,6 +82,7 @@ public class UserMenu {
                 }
                 case "5" -> {
                     Habit updateHabit = editHabit(sc, hs, userId);
+                    hs.editHabit(updateHabit, userId);
                     System.out.println("Теперь привычка выглядит так");
                     System.out.println(updateHabit);
                 }
@@ -126,24 +127,23 @@ public class UserMenu {
                     System.out.println("Старое имя " + user.getName());
                     System.out.println("Введите новое имя");
                     name = sc.next();
-                    us.updateUser(user, name, email);
+                    user.setName(name);
+                    us.updateUser(user);
                     System.out.println("Имя изменено");
                 }
                 case "2" -> {
                     System.out.println("Старый email " + user.getEmail());
                     System.out.println("Введите новый email");
                     email = sc.next();
-                    us.updateUser(user, name, email);
+                    user.setName(email);
+                    us.updateUser(user);
                     System.out.println("Email изменен");
                 }
                 case "3" -> {
                     System.out.println("Введите новый пароль");
                     String password = sc.next();
-                    try {
-                        reg.registration(user, password);
-                    } catch (ValidationException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    reg.setUserNewPassword(user, password);
+                    us.updateUser(user);
                     System.out.println("Пароль успешно изменен");
                 }
                 default -> System.out.println("Неизвестная команда");
