@@ -4,7 +4,10 @@ import io.ylab.habittracker.model.user.Role;
 import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.repository.role.RoleManager;
 import io.ylab.habittracker.repository.role.RoleRepository;
+import io.ylab.habittracker.repository.user.UserRepoManager;
+import io.ylab.habittracker.repository.user.UserRepository;
 import io.ylab.habittracker.validate.Validate;
+import io.ylab.habittracker.validate.ValidationException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +17,7 @@ import java.util.Objects;
 public class Registration {
 
     private final RoleRepository roleRepository = RoleManager.getInstance();
+    private final UserRepository userRepository = UserRepoManager.getInstance();
 
     public boolean authentication(User user, String password) {
         Validate.checkPassword(password);
@@ -26,8 +30,13 @@ public class Registration {
         user.setPassword(encodePassword(password));
     }
 
-    public Role authorization(long userId) {
-        return roleRepository.getUserRole(userId);
+        public Role authorization(String email) {
+        User user = userRepository.getUser(email);
+        if (user == null) {
+            throw new ValidationException("User not found");
+        } else {
+            return roleRepository.getUserRole(user.getId());
+        }
     }
 
     public void setUserNewPassword(User user, String password) {

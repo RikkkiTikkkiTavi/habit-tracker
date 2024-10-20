@@ -1,6 +1,7 @@
 package io.ylab.habittracker.menu;
 
 
+import io.ylab.habittracker.model.user.Role;
 import io.ylab.habittracker.model.user.Status;
 import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.service.habit.HabitService;
@@ -35,17 +36,16 @@ public class MainMenu {
                     if (email.equals("admin@admin")) {
                         AdminMenu.adminMenu();
                         break;
+                    } else {
+                        try {
+                            user = us.getUser(email);
+                            authentication(reg, user, us, hs, email);
+                        } catch (RuntimeException e) {
+                            System.out.println(e.getMessage());
+                            continue;
+                        }
+                        break;
                     }
-
-                    try {
-                        user = us.getUser(email);
-                        authentication(reg, user, us, hs);
-                    } catch (RuntimeException e) {
-                        System.out.println(e.getMessage());
-                        continue;
-                    }
-                    break;
-
                 case "2":
                     try {
                         User newUser = createUser(sc, us, reg);
@@ -82,7 +82,7 @@ public class MainMenu {
         return newUser;
     }
 
-    private static void authentication(Registration reg, User user, UserService us, HabitService hs) {
+    private static void authentication(Registration reg, User user, UserService us, HabitService hs, String email) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("Введите пароль");
@@ -92,7 +92,10 @@ public class MainMenu {
                 if (user.getStatus().equals(Status.BLOCKED)) {
                     System.out.println("Соболезнуем, ваш аккаунт заблокирован");
                 } else {
-                    UserMenu.userMenu(user, us, reg, hs);
+                    if (reg.authorization(email).equals(Role.USER)) {
+                        UserMenu.userMenu(user, us, reg, hs);
+                        break;
+                    }
                     break;
                 }
 
