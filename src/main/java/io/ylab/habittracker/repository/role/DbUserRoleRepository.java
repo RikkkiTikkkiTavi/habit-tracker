@@ -1,19 +1,37 @@
 package io.ylab.habittracker.repository.role;
 
 import io.ylab.habittracker.model.user.Role;
+import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.properties.DBConnectionProvider;
+import io.ylab.habittracker.repository.habit.HabitRepository;
 import io.ylab.habittracker.validate.ValidationException;
 
 import java.sql.*;
 
+/**
+ * Класс для манипуляций с ролями пользователей БД
+ * @see RoleRepository - реализуемый интерфейс
+ * @autor Константин Щеглов
+ */
 public class DbUserRoleRepository implements RoleRepository {
 
+    /**
+     * Поле объект класса провайдера
+     */
     private final DBConnectionProvider dbConnectionProvider;
 
+    /**
+     * Конструктор - создание нового объекта.
+     * В качестве параметра принимает объект класса DBConnectionProvider
+     */
     public DbUserRoleRepository(DBConnectionProvider dbConnectionProvider) {
         this.dbConnectionProvider = dbConnectionProvider;
     }
 
+    /**
+     * Функция присваивания роли пользователю в базе данных
+     * @see io.ylab.habittracker.repository.user.DbUserRepository#addUser(User)
+     */
     @Override
     public void addUserRole(long userId, long roleId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -27,6 +45,9 @@ public class DbUserRoleRepository implements RoleRepository {
         }
     }
 
+    /**
+     * Функция получения роли пользователя по его id
+     */
     @Override
     public Role getUserRole(long userId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {

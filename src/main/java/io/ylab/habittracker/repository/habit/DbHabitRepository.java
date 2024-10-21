@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * Класс для работы с базой данных
- * Реализует интерфейc
- * @see HabitRepository
+ * @see HabitRepository - реализуемый интерфейс
  * @autor Константин Щеглов
  */
 public class DbHabitRepository implements HabitRepository {

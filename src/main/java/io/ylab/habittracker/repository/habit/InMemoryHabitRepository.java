@@ -7,7 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Класс позволяющий сохранять привычки в оперативной памяти
+ * @see HabitRepository - реализуемый интерфейс
+ * @autor Константин Щеглов
+ */
 public class InMemoryHabitRepository implements HabitRepository {
     private final Map<Long, Map<Long, Habit>> habits = new HashMap<>();
 

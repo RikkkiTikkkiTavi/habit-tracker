@@ -30,6 +30,7 @@ public class HabitRepoManager {
 
     /**
      * Метод возвращает ссылку на объект класса DbHabitRepository
+     * @see DbHabitRepository
      */
     public static HabitRepository getInstance() {
         if (hr == null) {

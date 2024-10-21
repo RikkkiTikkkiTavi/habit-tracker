@@ -1,10 +1,16 @@
 package io.ylab.habittracker.repository.history;
 
 import io.ylab.habittracker.model.history.HabitHistory;
+import io.ylab.habittracker.repository.habit.HabitRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Класс позволяющий сохранять привычки в оперативной памяти
+ * @see HistoryRepository - реализуемый интерфейс
+ * @autor Константин Щеглов
+ */
 public class InMemoryHistoryRepository implements HistoryRepository {
 
     @Override
@@ -19,9 +25,7 @@ public class InMemoryHistoryRepository implements HistoryRepository {
 
     @Override
     public void addUserHistory(HabitHistory uh) {
-
     }
-
     @Override
     public HabitHistory getHistory(long habitId, LocalDate date) {
         return null;

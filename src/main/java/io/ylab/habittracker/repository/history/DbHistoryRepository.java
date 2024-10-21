@@ -2,21 +2,36 @@ package io.ylab.habittracker.repository.history;
 
 import io.ylab.habittracker.model.history.HabitHistory;
 import io.ylab.habittracker.properties.DBConnectionProvider;
+import io.ylab.habittracker.repository.habit.HabitRepository;
 import io.ylab.habittracker.validate.ValidationException;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Класс для манипуляций с историей привычек в БД
+ * @see HabitRepository - реализуемый интерфейс
+ * @autor Константин Щеглов
+ */
 public class DbHistoryRepository implements HistoryRepository {
 
+    /**
+     * Поле объект класса провайдера
+     */
     private final DBConnectionProvider dbConnectionProvider;
 
+    /**
+     * Конструктор - создание нового объекта.
+     * В качестве параметра принимает объект класса DBConnectionProvider
+     */
     public DbHistoryRepository(DBConnectionProvider dbConnectionProvider) {
         this.dbConnectionProvider = dbConnectionProvider;
     }
 
+    /**
+     * Функция сохранения истории выполнения привычки в базе данных
+     */
     @Override
     public void addUserHistory(HabitHistory hh) {
         String insertQuery =
@@ -29,6 +44,10 @@ public class DbHistoryRepository implements HistoryRepository {
         }
     }
 
+    /**
+     * Функция получения истории выполнения привычки в базе данных
+     * @param userId - указывает id пользователя обладателя привычек
+     */
     @Override
     public List<HabitHistory> getUserHistory(long userId, LocalDate from, LocalDate to) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -45,6 +64,11 @@ public class DbHistoryRepository implements HistoryRepository {
         }
     }
 
+    /**
+     * Функция получения конкретной истории за конкретный день
+     * @param habitId - id привычки
+     * @param date - день исполнения привычки
+     */
     @Override
     public HabitHistory getHistory(long habitId, LocalDate date) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -60,6 +84,9 @@ public class DbHistoryRepository implements HistoryRepository {
         }
     }
 
+    /**
+     * Функция возвращает дату выполнения привычки в последний раз
+     */
     @Override
     public LocalDate getLastNoteDate(long habitId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -80,6 +107,11 @@ public class DbHistoryRepository implements HistoryRepository {
         }
     }
 
+    /**
+     * Метод создающий PreparedStatement для создания истории привычки
+     * @see DbHistoryRepository#addUserHistory(HabitHistory)
+     * В качестве параметров принимает сохраняему историю, sql запрос на сохранение, объект класса Connection
+     */
     private static void insertHabitHistory(HabitHistory habitHistory, String query, Connection connection)
             throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -91,6 +123,10 @@ public class DbHistoryRepository implements HistoryRepository {
         preparedStatement.executeUpdate();
 }
 
+    /**
+     * Метод маппер преобразует ResultSet в список историю
+     * @see DbHistoryRepository#addUserHistory(HabitHistory)
+     */
 private List<HabitHistory> rowToHabitsHistory(ResultSet resultSet) throws SQLException {
     List<HabitHistory> histories = new ArrayList<>();
     while (resultSet.next()) {
@@ -105,6 +141,10 @@ private List<HabitHistory> rowToHabitsHistory(ResultSet resultSet) throws SQLExc
     return histories;
 }
 
+    /**
+     * Метод маппер преобразует ResultSet в одну конкретную отметку выполнения привычки
+     * @see DbHistoryRepository#getHistory(long, LocalDate)
+     */
     private HabitHistory rowToHistory(final ResultSet resultSet) throws SQLException {
         resultSet.next();
         long user_id = resultSet.getLong("user_id");
