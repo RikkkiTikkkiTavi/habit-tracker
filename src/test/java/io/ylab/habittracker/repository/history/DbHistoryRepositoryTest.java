@@ -12,14 +12,13 @@ import io.ylab.habittracker.repository.role.DbUserRoleRepository;
 import io.ylab.habittracker.repository.role.RoleRepository;
 import io.ylab.habittracker.repository.user.DbUserRepository;
 import io.ylab.habittracker.repository.user.UserRepository;
+import io.ylab.habittracker.validate.ValidationException;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DbHistoryRepositoryTest {
 
@@ -28,11 +27,12 @@ class DbHistoryRepositoryTest {
     );
     HistoryRepository historyRepository;
     HabitRepository hh;
-    UserRepository uh;
+    UserRepository ur;
     RoleRepository rr;
     Habit habitOne;
     Habit habitTwo;
     HabitHistory habitHistory;
+    User userOne;
 
     @BeforeAll
     static void beforeAll() {
@@ -58,12 +58,12 @@ class DbHistoryRepositoryTest {
 
         hh = new DbHabitRepository(connectionProvider);
         rr = new DbUserRoleRepository(connectionProvider);
-        uh = new DbUserRepository(connectionProvider, rr);
+        ur = new DbUserRepository(connectionProvider, rr);
         historyRepository = new DbHistoryRepository(connectionProvider);
 
-        User userOne = new User("1","email");
+        userOne = new User("1","email");
         userOne.setPassword("password");
-        uh.addUser(userOne);
+        ur.addUser(userOne);
 
         habitOne = new Habit("1", "1", Frequency.EVERY_DAY, 1L);
         habitTwo = new Habit("2", "2", Frequency.EVERY_DAY, 1L);
@@ -72,11 +72,16 @@ class DbHistoryRepositoryTest {
         hh.createHabit(habitTwo);
 
         habitHistory = new HabitHistory(1,1, LocalDate.now());
+        historyRepository.addUserHistory(habitHistory);
+    }
+
+    @AfterEach
+    void tearDown() {
+        ur.deleteUser("email");
     }
 
     @Test
     void addNewUserHistoryIncreaseHistorySizeByOne() {
-        historyRepository.addUserHistory(habitHistory);
         assertEquals(1, historyRepository
                 .getUserHistory(1, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1)).size()
         );
@@ -84,24 +89,32 @@ class DbHistoryRepositoryTest {
 
     @Test
     void addUserHistoryCreatedHistoryWithStreakEquals1() {
-        historyRepository.addUserHistory(habitHistory);
         assertEquals(1, historyRepository.getHistory(1, LocalDate.now()).getStreak());
     }
     @Test
     void addUserHistoryWithNonExistentUserThrowsException() {
+        habitHistory.setUserId(100);
+        ValidationException e = assertThrows(
+                ValidationException.class,
+                () -> historyRepository.addUserHistory(habitHistory));
 
     }
 
 
     @Test
-    void getUserHistory() {
+    void getExistUserHistoryReturnHistory() {
+        assertEquals(HabitHistory.class, historyRepository.getHistory(1, LocalDate.now()).getClass());
     }
 
     @Test
-    void getHistory() {
+    void getUserHistoryReturnsListOfUserHistory() {
+        HabitHistory history = historyRepository.getHistory(1, LocalDate.now());
+        assertEquals(
+               1, historyRepository.getUserHistory(1, LocalDate.now(), LocalDate.now().plusDays(1)).size());
     }
 
     @Test
-    void getLastNoteDate() {
+    void getLastNoteDateReturnDateOfCreatingHabitOne() {
+        assertEquals(habitOne.getCreateTime(), historyRepository.getLastNoteDate(1));
     }
 }

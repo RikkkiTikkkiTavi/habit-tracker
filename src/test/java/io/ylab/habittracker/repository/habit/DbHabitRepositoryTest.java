@@ -22,7 +22,7 @@ class DbHabitRepositoryTest {
     );
 
     HabitRepository hh;
-    UserRepository uh;
+    UserRepository ur;
     RoleRepository rr;
     Habit habitOne;
     Habit habitTwo;
@@ -30,10 +30,7 @@ class DbHabitRepositoryTest {
     @BeforeAll
     static void beforeAll() {
         postgres.start();
-        LiquibaseScripts.setChangeSet(
-                postgres.getJdbcUrl(),
-                postgres.getUsername(),
-                postgres.getPassword());
+
     }
 
     @AfterAll
@@ -49,16 +46,26 @@ class DbHabitRepositoryTest {
                 postgres.getPassword()
         );
 
+        LiquibaseScripts.setChangeSet(
+                postgres.getJdbcUrl(),
+                postgres.getUsername(),
+                postgres.getPassword());
+
         hh = new DbHabitRepository(connectionProvider);
         rr = new DbUserRoleRepository(connectionProvider);
-        uh = new DbUserRepository(connectionProvider, rr);
+        ur = new DbUserRepository(connectionProvider, rr);
 
         User userOne = new User("1","email");
         userOne.setPassword("password");
-        uh.addUser(userOne);
+        ur.addUser(userOne);
 
         habitOne = new Habit("1", "1", Frequency.EVERY_DAY, 1L);
         habitTwo = new Habit("2", "2", Frequency.EVERY_DAY, 1L);
+    }
+
+    @AfterEach
+    void tearDown() {
+        ur.deleteUser("email");
     }
 
     @Test
