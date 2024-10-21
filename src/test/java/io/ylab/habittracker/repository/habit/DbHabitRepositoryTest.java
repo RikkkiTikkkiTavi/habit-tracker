@@ -5,6 +5,8 @@ import io.ylab.habittracker.model.habit.Frequency;
 import io.ylab.habittracker.model.habit.Habit;
 import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.properties.DBConnectionProvider;
+import io.ylab.habittracker.repository.role.DbUserRoleRepository;
+import io.ylab.habittracker.repository.role.RoleRepository;
 import io.ylab.habittracker.repository.user.DbUserRepository;
 import io.ylab.habittracker.repository.user.UserRepository;
 import org.junit.jupiter.api.*;
@@ -21,6 +23,7 @@ class DbHabitRepositoryTest {
 
     HabitRepository hh;
     UserRepository uh;
+    RoleRepository rr;
     Habit habitOne;
     Habit habitTwo;
 
@@ -47,7 +50,8 @@ class DbHabitRepositoryTest {
         );
 
         hh = new DbHabitRepository(connectionProvider);
-        uh = new DbUserRepository(connectionProvider);
+        rr = new DbUserRoleRepository(connectionProvider);
+        uh = new DbUserRepository(connectionProvider, rr);
 
         User userOne = new User("1","email");
         userOne.setPassword("password");

@@ -2,6 +2,7 @@ package io.ylab.habittracker.repository.user;
 
 import io.ylab.habittracker.properties.DBConnectionProvider;
 import io.ylab.habittracker.repository.role.DbUserRoleRepository;
+import io.ylab.habittracker.repository.role.RoleManager;
 
 import static io.ylab.habittracker.properties.DbProperties.getProperty;
 
@@ -36,7 +37,7 @@ public final class UserRepoManager {
      */
     public static UserRepository getInstance() {
         if (ur == null) {
-            ur = new DbUserRepository(new DBConnectionProvider(URL, USER_NAME, PASSWORD));
+            ur = new DbUserRepository(new DBConnectionProvider(URL, USER_NAME, PASSWORD), RoleManager.getInstance());
         }
         return ur;
     }

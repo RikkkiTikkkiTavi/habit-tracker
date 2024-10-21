@@ -29,7 +29,7 @@ public class DbUserRepository implements UserRepository {
      * Поле объект класса
      * @see io.ylab.habittracker.repository.role.DbUserRoleRepository
      */
-    private final static RoleRepository roleRepository = RoleManager.getInstance();
+    private RoleRepository roleRepository;
 
 
     /**
@@ -42,9 +42,10 @@ public class DbUserRepository implements UserRepository {
      * В качестве параметра принимает объект класса DBConnectionProvider
      * В теле конструктора происходит инициализация id
      */
-    public DbUserRepository(DBConnectionProvider dbConnectionProvider) {
+    public DbUserRepository(DBConnectionProvider dbConnectionProvider, RoleRepository roleRepository) {
         this.dbConnectionProvider = dbConnectionProvider;
         this.id = getLastIdFromDb();
+        this.roleRepository = roleRepository;
     }
 
     /**

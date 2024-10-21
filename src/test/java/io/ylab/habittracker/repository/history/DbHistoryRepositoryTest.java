@@ -8,6 +8,8 @@ import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.properties.DBConnectionProvider;
 import io.ylab.habittracker.repository.habit.DbHabitRepository;
 import io.ylab.habittracker.repository.habit.HabitRepository;
+import io.ylab.habittracker.repository.role.DbUserRoleRepository;
+import io.ylab.habittracker.repository.role.RoleRepository;
 import io.ylab.habittracker.repository.user.DbUserRepository;
 import io.ylab.habittracker.repository.user.UserRepository;
 import org.junit.jupiter.api.*;
@@ -27,6 +29,7 @@ class DbHistoryRepositoryTest {
     HistoryRepository historyRepository;
     HabitRepository hh;
     UserRepository uh;
+    RoleRepository rr;
     Habit habitOne;
     Habit habitTwo;
     HabitHistory habitHistory;
@@ -54,7 +57,8 @@ class DbHistoryRepositoryTest {
         );
 
         hh = new DbHabitRepository(connectionProvider);
-        uh = new DbUserRepository(connectionProvider);
+        rr = new DbUserRoleRepository(connectionProvider);
+        uh = new DbUserRepository(connectionProvider, rr);
         historyRepository = new DbHistoryRepository(connectionProvider);
 
         User userOne = new User("1","email");
