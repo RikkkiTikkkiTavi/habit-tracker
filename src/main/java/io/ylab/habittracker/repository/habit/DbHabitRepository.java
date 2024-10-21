@@ -11,20 +11,36 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * Класс для работы с базой данных
- *
+ * Реализует интерфейc
+ * @see HabitRepository
  * @autor Константин Щеглов
  */
 public class DbHabitRepository implements HabitRepository {
 
+    /**
+     * Поле идентификатор привычки
+     */
     private long id;
 
+    /**
+     * Поле объект класса провайдера
+     */
     private final DBConnectionProvider dbConnectionProvider;
 
+    /**
+     * Конструктор - создание нового объекта.
+     * В качестве параметра принимает объект класса DBConnectionProvider
+     * В теле конструктора происходит инициализация id
+     */
     public DbHabitRepository(DBConnectionProvider dbConnectionProvider) {
         this.dbConnectionProvider = dbConnectionProvider;
         this.id = getLastIdFromDb();
     }
 
+    /**
+     * Функция получения значения
+     * @return возвращает id последней добавленной привычки
+     */
     private long getLastIdFromDb() {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
             String getHabitsQuery = "SELECT MAX(id) FROM entity.habits;";
@@ -37,6 +53,11 @@ public class DbHabitRepository implements HabitRepository {
         }
     }
 
+    /**
+     * Функция создания привычки в БД
+     * Метод принимает в качестве параметра привычку и сохраняет ее в БД
+     * @return ссылку на объект привычку
+     */
     @Override
     public Habit createHabit(Habit habit) {
         habit.setId(++id);
@@ -50,6 +71,11 @@ public class DbHabitRepository implements HabitRepository {
         return habit;
     }
 
+    /**
+     * Функция обновления привычки в БД
+     * Метод принимает в качестве параметра привычку и обновляет ее в БД
+     * @return ссылку на объект привычку
+     */
     @Override
     public Habit updateHabit(Habit habit) {
         String updateQuery =
@@ -62,6 +88,12 @@ public class DbHabitRepository implements HabitRepository {
         return habit;
     }
 
+    /**
+     * Функция получения привычки из БД
+     * Метод принимает в качестве параметра id привычки
+     * В случае отсутствия привычки в БД, возвращает null
+     * @return ссылку на объект привычку
+     */
     @Override
     public Habit getHabit(long habitId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -76,6 +108,11 @@ public class DbHabitRepository implements HabitRepository {
         }
     }
 
+    /**
+     * Функция удаления привычки из БД
+     * Метод принимает в качестве параметра id привычки
+     * Метод ничего не возвращает
+     */
     @Override
     public void deleteHabit(long userId, long habitId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -88,6 +125,11 @@ public class DbHabitRepository implements HabitRepository {
         }
     }
 
+    /**
+     * Функция получения привычек пользователя
+     * Метод принимает в качестве параметра id пользователя
+     * @return список привычек пользователя, в случае отсутствия привычек возвращает пустой лист
+     */
     @Override
     public List<Habit> getUserHabits(long userId) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -97,10 +139,16 @@ public class DbHabitRepository implements HabitRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             return rowToHabits(resultSet);
         } catch (SQLException e) {
-            throw new ValidationException(e.getMessage());
+            return List.of();
         }
     }
 
+    /**
+     * Метод создающий PreparedStatement для обновления или создания привычки
+     * @see DbHabitRepository#createHabit(Habit)
+     * @see DbHabitRepository#updateHabit(Habit)
+     * В качестве параметров принимает привычку, запрос на сохранение или обновление, объект класса Connection
+     */
     private static void insertHabit(Habit habit, String query, Connection connection) throws SQLException {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, habit.getName());
@@ -114,6 +162,9 @@ public class DbHabitRepository implements HabitRepository {
 
     }
 
+    /**
+     * Метод маппер преобразует ResultSet в список привычек
+     */
     private List<Habit> rowToHabits(ResultSet resultSet) throws SQLException {
         List<Habit> habits = new ArrayList<>();
         while (resultSet.next()) {
@@ -131,6 +182,9 @@ public class DbHabitRepository implements HabitRepository {
         return habits;
     }
 
+    /**
+     * Метод маппер преобразует ResultSet в привычку
+     */
     private Habit rowToHabit(final ResultSet resultSet) throws SQLException {
         resultSet.next();
         String name = resultSet.getString("name");
