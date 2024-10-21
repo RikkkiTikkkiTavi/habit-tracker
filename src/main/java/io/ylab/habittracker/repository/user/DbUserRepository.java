@@ -1,8 +1,10 @@
 package io.ylab.habittracker.repository.user;
 
+import io.ylab.habittracker.model.habit.Habit;
 import io.ylab.habittracker.model.user.Status;
 import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.properties.DBConnectionProvider;
+import io.ylab.habittracker.repository.habit.DbHabitRepository;
 import io.ylab.habittracker.repository.role.RoleManager;
 import io.ylab.habittracker.repository.role.RoleRepository;
 import io.ylab.habittracker.validate.ValidationException;
@@ -11,19 +13,44 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс для манипуляций с пользователями пользователей БД
+ * @see UserRepository - реализуемый интерфейс
+ * @autor Константин Щеглов
+ */
 public class DbUserRepository implements UserRepository {
 
+    /**
+     * Поле идентификатор пользователя
+     */
     private long id;
 
+    /**
+     * Поле объект класса
+     * @see io.ylab.habittracker.repository.role.DbUserRoleRepository
+     */
     private final static RoleRepository roleRepository = RoleManager.getInstance();
 
+
+    /**
+     * Поле объект класса провайдера
+     */
     private final DBConnectionProvider dbConnectionProvider;
 
+    /**
+     * Конструктор - создание нового объекта.
+     * В качестве параметра принимает объект класса DBConnectionProvider
+     * В теле конструктора происходит инициализация id
+     */
     public DbUserRepository(DBConnectionProvider dbConnectionProvider) {
         this.dbConnectionProvider = dbConnectionProvider;
         this.id = getLastIdFromDb();
     }
 
+    /**
+     * Функция получения значения
+     * @return возвращает id последнего добавленного пользователя
+     */
     private long getLastIdFromDb() {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
             String getHabitsQuery = "SELECT MAX(id) FROM entity.users;";
@@ -36,6 +63,11 @@ public class DbUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * Функция создания пользователя
+     * Метод принимает в качестве параметра пользователя и сохраняет его в БД
+     * @return ссылку на добавленного пользователя
+     */
     @Override
     public User addUser(User user) {
         user.setId(++id);
@@ -49,6 +81,11 @@ public class DbUserRepository implements UserRepository {
         return user;
     }
 
+    /**
+     * Функция удаления пользователя из БД
+     * @param email - принимает в качестве параметра почту пользователя. Почта уникальна
+     * Метод ничего не возвращает
+     */
     @Override
     public void deleteUser(String email) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -61,6 +98,11 @@ public class DbUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * Функция обновления пользователя
+     * Метод принимает в качестве параметра пользователя
+     * @return ссылку на добавленного пользователя
+     */
     @Override
     public User updateUser(User user) {
         String updateQuery = "UPDATE entity.users SET name = ?, email = ?, status = ?, password = ? WHERE id = ?;";
@@ -72,6 +114,11 @@ public class DbUserRepository implements UserRepository {
         return user;
     }
 
+    /**
+     * Функция получения пользователя из БД
+     * @param email - принимает в качестве параметра почту пользователя. Почта уникальна
+     * @return - пользователь
+     */
     @Override
     public User getUser(String email) {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -86,6 +133,10 @@ public class DbUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * Функция получения всех пользователей
+     * @return список привычек пользователей
+     */
     @Override
     public List<User> getUsers() {
         try (Connection connection = this.dbConnectionProvider.getConnection()) {
@@ -98,6 +149,12 @@ public class DbUserRepository implements UserRepository {
         }
     }
 
+    /**
+     * Метод создающий PreparedStatement для обновления или создания пользователя
+     * @see DbUserRepository#addUser(User)
+     * @see DbUserRepository#updateUser(User)
+     * В качестве параметров принимает пользователя, запрос на сохранение или обновление, объект класса Connection
+     */
     private static void insertUser(User user, String query, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, user.getName());
@@ -108,6 +165,9 @@ public class DbUserRepository implements UserRepository {
         preparedStatement.executeUpdate();
     }
 
+    /**
+     * Метод маппер преобразует ResultSet в список пользователей
+     */
     private List<User> rowToUsers(ResultSet resultSet) throws SQLException {
         List<User> users = new ArrayList<>();
         while (resultSet.next()) {
@@ -123,6 +183,9 @@ public class DbUserRepository implements UserRepository {
         return users;
     }
 
+    /**
+     * Метод маппер преобразует ResultSet в пользователя
+     */
     private User rowToUser(final ResultSet resultSet) throws SQLException {
         User user;
         resultSet.next();

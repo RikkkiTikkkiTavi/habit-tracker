@@ -3,7 +3,6 @@ package io.ylab.habittracker.repository.role;
 import io.ylab.habittracker.model.user.Role;
 import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.properties.DBConnectionProvider;
-import io.ylab.habittracker.repository.habit.HabitRepository;
 import io.ylab.habittracker.validate.ValidationException;
 
 import java.sql.*;

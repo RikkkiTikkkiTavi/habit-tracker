@@ -2,11 +2,17 @@ package io.ylab.habittracker.repository.user;
 
 import io.ylab.habittracker.model.user.Status;
 import io.ylab.habittracker.model.user.User;
+import io.ylab.habittracker.repository.habit.HabitRepository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс позволяющий сохранять привычки в оперативной памяти
+ * @see UserRepository - реализуемый интерфейс
+ * @autor Константин Щеглов
+ */
 public class InMemoryUserRepository implements UserRepository {
     private final Map<String, User> users = new HashMap<>();
 
