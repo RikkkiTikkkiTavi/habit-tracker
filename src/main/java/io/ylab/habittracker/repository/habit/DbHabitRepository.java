@@ -9,7 +9,11 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Класс утилита для работы с конфигом
+ *
+ * @autor Константин Щеглов
+ */
 public class DbHabitRepository implements HabitRepository {
 
     private long id;

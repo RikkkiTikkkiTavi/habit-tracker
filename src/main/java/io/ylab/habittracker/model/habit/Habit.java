@@ -2,14 +2,45 @@ package io.ylab.habittracker.model.habit;
 
 import java.time.LocalDate;
 
+/**
+ * Класс модель привычки
+ *
+ * @autor Константин Щеглов
+ */
 public class Habit {
+    /**
+     * Поле идентификатор создателя привычки
+     */
     private Long userId;
+
+    /**
+     * Поле идентификатор привычки
+     */
     private Long id;
+
+    /**
+     * Поле имя привычки
+     */
     private String name;
+
+    /**
+     * Поле описание привычки
+     */
     private String description;
+
+    /**
+     * Поле частота выполнения привычки
+     */
     private Frequency frequency;
+
+    /**
+     * Поле дата создания привычки
+     */
     private LocalDate createTime;
 
+    /**
+     * Конструктор - создание нового объекта с определенными значениями
+     */
     public Habit(String name, String description, Frequency frequency, Long userId) {
         this.userId = userId;
         this.name = name;

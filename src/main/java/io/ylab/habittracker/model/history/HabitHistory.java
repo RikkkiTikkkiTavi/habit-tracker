@@ -2,12 +2,24 @@ package io.ylab.habittracker.model.history;
 
 import java.time.LocalDate;
 
+/**
+ * Класс модель истории выполнения привычки.
+ * @autor Константин Щеглов
+ */
 public class HabitHistory {
+    /** Поле идентификатор выполненной привычки */
     private long habitId;
+    /** Поле идентификатор исполнителя привычки */
     private long userId;
+    /** Поле дата исполнения привычки */
     private LocalDate date;
+    /** Поле текущих серий выполнения привычки */
     private int streak;
 
+    /**
+     * Конструктор - создание нового объекта с определенными значениями
+     * streak = 1 при создании объекта
+     * */
     public HabitHistory(long habitId, long userId, LocalDate date) {
         this.habitId = habitId;
         this.userId = userId;
@@ -33,10 +45,6 @@ public class HabitHistory {
 
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public int getStreak() {

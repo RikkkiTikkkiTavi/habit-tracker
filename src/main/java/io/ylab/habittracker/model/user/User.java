@@ -1,15 +1,41 @@
 package io.ylab.habittracker.model.user;
 
+/**
+ * Класс модель пользователя
+ *
+ * @autor Константин Щеглов
+ */
 public class User {
+    /**
+     * Поле идентификатор пользователя
+     */
     private Long id;
+    /**
+     * Поле имя пользователя
+     */
     private String name;
+    /**
+     * Поле адрес почты пользователя
+     */
     private String email;
+    /**
+     * Поле статус доступа пользователя
+     */
     private Status status;
+    /**
+     * Поле пароль пользователя
+     */
     private String password;
 
+    /**
+     * Конструктор - создание нового объекта без параметров
+     */
     public User() {
     }
 
+    /**
+     * Конструктор - создание нового объекта с определенными значениями
+     */
     public User(String name, String email) {
         this.name = name;
         this.email = email;
