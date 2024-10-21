@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Класс утилита для работы с конфигом
+ * Класс для работы с базой данных
  *
  * @autor Константин Щеглов
  */
