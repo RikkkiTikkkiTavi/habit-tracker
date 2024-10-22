@@ -13,7 +13,7 @@ import java.util.List;
 public interface HistoryRepository {
 
     /**
-     * Функция создания истории
+     * Функция добавления истории в хранилище
      */
     void addUserHistory(HabitHistory uh);
     /**
