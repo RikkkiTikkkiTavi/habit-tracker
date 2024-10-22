@@ -1,11 +1,8 @@
 package io.ylab.habittracker.repository.user;
 
-import io.ylab.habittracker.model.habit.Habit;
 import io.ylab.habittracker.model.user.Status;
 import io.ylab.habittracker.model.user.User;
 import io.ylab.habittracker.properties.DBConnectionProvider;
-import io.ylab.habittracker.repository.habit.DbHabitRepository;
-import io.ylab.habittracker.repository.role.RoleManager;
 import io.ylab.habittracker.repository.role.RoleRepository;
 import io.ylab.habittracker.validate.ValidationException;
 
@@ -29,7 +26,7 @@ public class DbUserRepository implements UserRepository {
      * Поле объект класса
      * @see io.ylab.habittracker.repository.role.DbUserRoleRepository
      */
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
 
     /**
