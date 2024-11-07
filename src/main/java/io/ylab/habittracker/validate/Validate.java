@@ -1,7 +1,7 @@
 package io.ylab.habittracker.validate;
 
-import io.ylab.habittracker.habit.model.Habit;
-import io.ylab.habittracker.user.model.User;
+import io.ylab.habittracker.model.habit.Habit;
+import io.ylab.habittracker.model.user.User;
 
 import java.time.LocalDate;
 
@@ -38,9 +38,13 @@ public class Validate {
         }
     }
 
-    public static void checkHabit(Habit habit) {
+    public static void checkHabit(Habit habit, long userId) {
         if (habit == null) {
             throw new NotFoundException("Такой привычки не существует");
+        }
+
+        if (habit.getUserId() != userId) {
+            throw new ValidationException("У вас нет такой привычки");
         }
 
         String name = habit.getName();

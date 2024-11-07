@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="db.changelog/changelog.xml">
+    <changeSet id="005-create-table" author="constantin">
+        <createTable tableName="habit_history" schemaName="entity">
+
+            <column name="date" type="timestamp"/>
+            <column name="streak" type="bigint"/>
+            <column name="user_id" type="bigint">
+                <constraints references="entity.users(id)" foreignKeyName="user_id" deleteCascade="true"/>
+            </column>
+
+            <column name="habit_id" type="bigint">
+                <constraints references="entity.habits(id)" foreignKeyName="habit_id" deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

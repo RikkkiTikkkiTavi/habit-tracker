@@ -1,0 +1,18 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="db.changelog/changelog.xml">
+    <changeSet id="004-create-table" author="constantin" >
+        <createTable tableName="user_roles" schemaName="entity">
+            <column name="user_id" type="bigint">
+                <constraints references="entity.users(id)" foreignKeyName="user_id" deleteCascade="true"/>
+            </column>
+
+            <column name="role_id" type="bigint">
+            <constraints references="entity.roles(id)" foreignKeyName="role_id" deleteCascade="true"/>
+        </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
